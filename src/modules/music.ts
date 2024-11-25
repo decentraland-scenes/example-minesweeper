@@ -11,13 +11,13 @@ export class MusicPlayer {
             parent: engine.CameraEntity
         })
 
-        AudioSource.createOrReplace(this.musicEntity, {
-            audioClipUrl: "sounds/music.mp3",
-            global:true,
-            loop:true,
-            playing:false,
-            volume:0.5
-        })
+        // AudioSource.createOrReplace(this.musicEntity, {
+        //     audioClipUrl: "sounds/music.mp3",
+        //     global:true,
+        //     loop:true,
+        //     playing:false,
+        //     volume:0.5
+        // })
     }
 
     playMusic(){

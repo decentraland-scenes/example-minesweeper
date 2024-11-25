@@ -29,7 +29,7 @@ export function checkWin():boolean{
 }
 
 export const Cell = engine.defineComponent('cell', { 
-    id:Schemas.Number,
+    //id:Schemas.Number,
     active:Schemas.Boolean,
     isMine:Schemas.Boolean,
    // mineEntity: Schemas.Entity,
@@ -42,10 +42,6 @@ export const Cell = engine.defineComponent('cell', {
     z: Schemas.Number,
     neighbors: Schemas.Array(Schemas.Entity)
 })
-
-// export const Mine = engine.defineComponent('mine', {
-//     active:Schemas.Boolean,    
-// })
 
 export function startExplosion(parentCell:Entity){
 
@@ -63,20 +59,15 @@ export function startExplosion(parentCell:Entity){
         },
         1000
     )
-    AudioSource.create(explosion,{
-        audioClipUrl: "sounds/explosion.mp3",
-        loop: false,
-        playing: true
-    })
-
-    //VisibilityComponent.getMutable(cellInfo.mineEntity).visible = true
-    
-    
+    // AudioSource.create(explosion,{
+    //     audioClipUrl: "sounds/explosion.mp3",
+    //     loop: false,
+    //     playing: true
+    // })    
     Transform.getMutable(explosion).parent = parentCell
     
     
 }
-
 
 export function addNumberMarker(parentCell:Entity, number:string){    
   
@@ -116,16 +107,13 @@ export function spawnDirtParticles(cell:Entity){
     })
     GltfContainer.createOrReplace(dirt, {src:'models/dirt_particles.glb' })
 
-    AudioSource.create(dirt,{
-        audioClipUrl: "sounds/dig.mp3",
-        loop: false,
-        playing: true
-    })
-
+    // AudioSource.create(dirt,{
+    //     audioClipUrl: "sounds/dig.mp3",
+    //     loop: false,
+    //     playing: true
+    // })
     
-    Transform.getMutable(dirt).parent = cell
-    
-    
+    Transform.getMutable(dirt).parent = cell    
 
     utils.timers.setTimeout(()=>{
         engine.removeEntity(dirt)
@@ -147,13 +135,13 @@ export function flagCell(cell:Entity):boolean{
         //Transform.getMutable(engine.PlayerEntity).rotation = Quaternion.fromEulerDegrees(0,90,0)
         VisibilityComponent.getMutable(cellInfo.flagEntity).visible = true
         
-        AudioSource.createOrReplace(cellInfo.flagEntity,{
-            audioClipUrl: "sounds/place_flag.mp3",
-            loop: false,
-            playing: true
-        })
+        // AudioSource.createOrReplace(cellInfo.flagEntity,{
+        //     audioClipUrl: "sounds/place_flag.mp3",
+        //     loop: false,
+        //     playing: true
+        // })
         Animator.playSingleAnimation(cellInfo.flagEntity, "Flag_Place_Prop")
-        //Animator.playSingleAnimation(cellInfo.flagEntity, "PlaneAction")
+        
         utils.timers.setTimeout(()=>{
             if(cellInfo.flagged){
                 Animator.playSingleAnimation(cellInfo.flagEntity, "Flag_Loop_Prop")
@@ -166,11 +154,11 @@ export function flagCell(cell:Entity):boolean{
 
         if(cellInfo.flagged){
 
-            AudioSource.createOrReplace(cellInfo.flagEntity,{
-                audioClipUrl: "sounds/woosh.mp3",
-                loop: false,
-                playing: true
-            })           
+            // AudioSource.createOrReplace(cellInfo.flagEntity,{
+            //     audioClipUrl: "sounds/woosh.mp3",
+            //     loop: false,
+            //     playing: true
+            // })           
               
        
             cellInfo.flagged = false
@@ -338,11 +326,11 @@ export function createGridCell(_id:number, transform:TransformTypeWithOptionals,
         },
     ]
     })
-    AudioSource.createOrReplace(flag,{
-        audioClipUrl: "sounds/place_flag.mp3",
-        loop: false,
-        playing: false
-    })
+    // AudioSource.createOrReplace(flag,{
+    //     audioClipUrl: "sounds/place_flag.mp3",
+    //     loop: false,
+    //     playing: false
+    // })
     VisibilityComponent.createOrReplace(flag, {visible: false})
 
     
@@ -354,11 +342,8 @@ export function createGridCell(_id:number, transform:TransformTypeWithOptionals,
         revealed: false,
         x: idX,
         z: idZ,
-        flagged:false,
-        id:_id,     
-        active:false   ,
-        //mineEntity: mine,
-       // numberMarkerEntity:numberMarker,
+        flagged:false,           
+        active:false,       
         flagEntity:flag
 
     })
@@ -373,22 +358,21 @@ export function createGridCell(_id:number, transform:TransformTypeWithOptionals,
 
  export function resetGridCell(cell:Entity, idX:number, idZ:number):Entity{
 
-     const cellInfo = Cell.getMutable(cell)
+     const cellInfo = Cell.get(cell)
+     let flag = cellInfo.flagEntity
 
-     cellInfo.active = false
+     Cell.createOrReplace(cell,{
+        isMine: false,
+        neighborMineCount: 0,
+        revealed: false,
+        x: idX,
+        z: idZ,
+        flagged:false,          
+        active:false,
+        flagEntity:flag
 
-     cellInfo.isMine= false,
-     cellInfo.neighborMineCount= 0,
-     cellInfo.revealed= false,
-     cellInfo.x= idX,
-     cellInfo.z= idZ,
-     cellInfo.flagged=false,         
-     cellInfo.active=false,
-     
-     //VisibilityComponent.getMutable(cellInfo.mineEntity).visible = false
-    // Mine.getMutable(cellInfo.mineEntity).active = false
+    })
 
-    // VisibilityComponent.getMutable(cellInfo.numberMarkerEntity).visible = false
      VisibilityComponent.getMutable(cellInfo.flagEntity).visible = false
 
      GltfContainer.createOrReplace(cell,{src: 'models/cell_default.glb', invisibleMeshesCollisionMask:ColliderLayer.CL_PHYSICS | ColliderLayer.CL_POINTER})  
@@ -397,8 +381,6 @@ export function createGridCell(_id:number, transform:TransformTypeWithOptionals,
 
      return cell
  }
-
-
 
 export function setMine(cell:Entity){
     let cellInfo = Cell.getMutable(cell)

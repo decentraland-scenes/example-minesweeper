@@ -209,7 +209,7 @@ export class GridMap {
 
             utils.timers.setTimeout(()=>{
                 //this.resetGrid()
-                this.soundBox.playSound(loseSound)
+                //this.soundBox.playSound(loseSound)
                // this.setLevel(16,20)
             }, 500)
         }       
@@ -385,7 +385,7 @@ export class GridMap {
     winGame(){
         console.log("GAME WON")
         
-        this.soundBox.playSound(winSound)
+        //this.soundBox.playSound(winSound)
         this.winAnimHandler.playWinAnimation()
         triggerSceneEmote({ src: 'assets/scene/Pose_Win.glb', loop: false })
         

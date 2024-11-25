@@ -16,7 +16,7 @@ import { GAME_STATE, GameStateData } from "./gameState"
 import { blockCamera, freeCamera, initCamera, lockPlayer, unlockPlayer } from "./modules/lockPlayer"
 import { MusicPlayer } from "./modules/music"
 import { ClickBlocker } from "./modules/clickBlocker"
-import { syncEntity } from "@dcl/sdk/network"
+
 
 import * as ui from "./ui"
 
@@ -149,7 +149,7 @@ export class Game {
 
     startCountDown(){
         this.mainMenu.countdown.show()
-        this.soundBox.playSound("sounds/pre_countdown.mp3")
+        //this.soundBox.playSound("sounds/pre_countdown.mp3")
         let countDown = 4 
         this.mainMenu.countdown.setTimeAnimated(countDown--)
         let countDownTimer = utils.timers.setInterval(()=>{
@@ -164,6 +164,7 @@ export class Game {
           GameStateData.getMutable(gameStateEntity).gameTime = 0
           this.setState(GAME_STATE.MAIN_LOOP)
           this.map.setInteractive(true)
+          utils.timers.clearInterval(countDownTimer)
         }, 4000)
       }
 
@@ -180,7 +181,7 @@ export class Game {
           this.mainMenu.showCountdown()
           this.startCountDown()          
          
-        }, 2000)
+        }, 1000)
     
           console.log("GETS THROUGH PLAYER CHECK")
     }
@@ -201,11 +202,10 @@ export class Game {
         unlockPlayer()
         freeCamera()
         this.clickBlocker.enable()
-        this.musicPlayer.stopMusic()        
+        //this.musicPlayer.stopMusic()        
         this.setState(GAME_STATE.IDLE)   
         this.map.setInteractive(false)    
-        this.mainMenu.level2Button.disable()
-        this.mainMenu.level3Button.disable()
+       
         this.setLevel(0)
 
       }

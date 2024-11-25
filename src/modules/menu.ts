@@ -131,8 +131,8 @@ export class MainMenu{
         "LEVEL 1",
         ()=>{          
             // game.setLevel(0)  
-            // game.startLevel(0)
-            //this.map.setLevel(levelData[0].linesX, levelData[0].linesZ,levelData[0].mines)            
+             game.startLevel(0)
+             //this.map.setLevel(levelData[0].linesX, levelData[0].linesZ,levelData[0].mines)            
         })
 
          //LEVEL 2 BUTTON
@@ -144,14 +144,14 @@ export class MainMenu{
         },
         
         ui.uiAssets.shapes.SQUARE_GREEN,
-        ui.uiAssets.icons.close,        
+        ui.uiAssets.numbers[2],        
         "LEVEL 2",
         ()=>{            
             // game.setLevel(1)
-            // game.startLevel(1)
+             game.startLevel(1)
            // this.map.setLevel(levelData[1].linesX, levelData[1].linesZ,levelData[1].mines)          
         })
-        this.level2Button.disable()
+        this.level2Button.enable()
 
          //LEVEL 3 BUTTON
          this.level3Button = new ui.MenuButton({
@@ -162,14 +162,14 @@ export class MainMenu{
         },
         
         ui.uiAssets.shapes.SQUARE_GREEN,
-        ui.uiAssets.icons.close,        
+        ui.uiAssets.numbers[3],        
         "LEVEL 3",
         ()=>{            
             // game.setLevel(2)
-            // game.startLevel(2)
+             game.startLevel(2)
            //this.map.setLevel(levelData[2].linesX, levelData[2].linesZ, levelData[2].mines)            
         })
-        this.level3Button.disable()
+        this.level3Button.enable()
 
         // LEVEL LABEL
         this.levelLabel = new ui.MenuLabel({
